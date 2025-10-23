@@ -1,0 +1,61 @@
+# application-prod.yml
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+# application-prod.yml
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+
+server:
+  port: ${PORT:8080}
+
+logging:
+  level:
+    com.veterinary.clinic: INFO
+    org.springframework: WARN
+    org.hibernate: WARN
+    ROOT: INFO
+  file:
+    name: /var/log/veterinary-clinic/application.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+
+veterinary:
+  clinic:
+    notification:
+      email:
+        enabled: true
+        from-address: ${NOTIFICATION_EMAIL_FROM}
+      sms:
+        enabled: ${SMS_ENABLED:false}
+        provider: ${SMS_PROVIDER:twilio}

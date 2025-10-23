@@ -1,0 +1,91 @@
+# application.yml
+spring:
+  application:
+    name: veterinary-clinic
+
+  profiles:
+    active: dev
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/veterinary_clinic
+    username: ${DB_USERNAME:veterinary_user}
+    password: ${DB_PASSWORD:veterinary_pass}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+        order_inserts: true
+        order_updates: true
+        jdbc_fetch_size: 50
+        jdbc_batch_size: 25
+
+  flyway:
+    enabled: false
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  jackson:
+    time-zone: UTC
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+
+server:
+  port: 8000
+  servlet:
+    context-path: /
+  compression:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when-authorized
+
+logging:
+  level:
+    com.veterinary.clinic: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    ROOT: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    file: "[%d{yyyy-MM-dd HH:mm:ss}] [%level] [%logger{36}] - %msg%n"
+    console: "[%d{yyyy-MM-dd HH:mm:ss}] [%highlight(%level)] [%cyan(%logger{36})] - %msg%n"
+
+# Configuración específica de la aplicación
+veterinary:
+  clinic:
+    appointment:
+      default-duration-minutes: 30
+      max-duration-minutes: 480
+      reminder-hours-before: 24
+    notification:
+      email:
+        enabled: true
+        from-address: noreply@veterinaryclinic.com
+      sms:
+        enabled: false
+        provider: twilio
