@@ -164,8 +164,8 @@
                 <version>${flyway.version}</version>
                 <configuration>
                     <url>jdbc:postgresql://localhost:5432/veterinary_clinic</url>
-                    <user>veterinary_user</user>
-                    <password>veterinary_pass</password>
+                    <user>postgres</user>
+                    <password>NuevaClave123</password>
                     <locations>
                         <location>classpath:db/migration</location>
                     </locations>

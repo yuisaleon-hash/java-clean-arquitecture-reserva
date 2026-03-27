@@ -3,13 +3,10 @@ spring:
   application:
     name: veterinary-clinic
 
-  profiles:
-    active: dev
-
   datasource:
     url: jdbc:postgresql://localhost:5432/veterinary_clinic
-    username: ${DB_USERNAME:veterinary_user}
-    password: ${DB_PASSWORD:veterinary_pass}
+    username: postgres
+    password: NuevaClave123
     driver-class-name: org.postgresql.Driver
 
   jpa:
