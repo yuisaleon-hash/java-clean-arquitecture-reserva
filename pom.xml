@@ -13,11 +13,11 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.veterinary.clinic</groupId>
-    <artifactId>clinica-veterinaria</artifactId>
+    <groupId>com.reserva.hotel</groupId>
+    <artifactId>reserva-hotel</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Clinica veterinaria</name>
-    <description>Sistema de gestión para clínica veterinaria usando Clean Architecture</description>
+    <name>Reserva hotel</name>
+    <description>Sistema de gestión para reserva de hotel usando Clean Architecture</description>
 
     <properties>
         <java.version>17</java.version>
@@ -113,6 +113,14 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!-- configuracion de lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- TestContainers para tests de integración -->
