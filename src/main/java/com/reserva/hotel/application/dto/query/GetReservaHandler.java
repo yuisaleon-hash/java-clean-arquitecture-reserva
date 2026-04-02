@@ -3,6 +3,9 @@ package com.reserva.hotel.application.dto.query;
 import com.reserva.hotel.domain.repository.ReservaRepository;
 import com.reserva.hotel.domain.model.Reserva;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class GetReservaHandler {
 
     private final ReservaRepository repo;
@@ -13,6 +16,7 @@ public class GetReservaHandler {
 
     public Reserva execute(String id) {
         return repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("No encontrada"));
+                .orElseThrow(() -> new RuntimeException("Reserva no encontrada con id: " + id));
     }
 }
+

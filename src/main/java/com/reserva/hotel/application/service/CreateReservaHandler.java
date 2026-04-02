@@ -3,32 +3,25 @@ package com.reserva.hotel.application.service;
 import com.reserva.hotel.application.dto.command.CreateReservaCommand;
 import com.reserva.hotel.application.dto.response.ReservaResponse;
 import com.reserva.hotel.application.port.in.CreateReservaUseCase;
-import com.reserva.hotel.application.port.out.ReservaPersistencePort;
 import com.reserva.hotel.domain.model.Reserva;
-import com.reserva.hotel.domain.service.ReservaDomainService;
+import com.reserva.hotel.domain.repository.ReservaRepository;
 
-import java.util.UUID;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CreateReservaHandler implements CreateReservaUseCase {
 
-    private final ReservaPersistencePort reservaPersistencePort;
-    private final ReservaDomainService reservaDomainService;
+    private final ReservaRepository reservaRepository;
 
-    public CreateReservaHandler(ReservaPersistencePort reservaPersistencePort,
-                                ReservaDomainService reservaDomainService) {
-        this.reservaPersistencePort = reservaPersistencePort;
-        this.reservaDomainService = reservaDomainService;
+    // ✅ ÚNICO constructor (IMPORTANTE)
+    public CreateReservaHandler(ReservaRepository reservaRepository) {
+        this.reservaRepository = reservaRepository;
     }
 
     @Override
     public ReservaResponse execute(CreateReservaCommand command) {
 
-        reservaDomainService.validarDisponibilidad(
-                command.getHotelId(),
-                command.getFechaInicio(),
-                command.getFechaFin()
-        );
-
+        // 1. Crear dominio
         Reserva reserva = new Reserva(
                 command.getId(),
                 command.getClienteId(),
@@ -37,11 +30,13 @@ public class CreateReservaHandler implements CreateReservaUseCase {
                 command.getFechaFin()
         );
 
-        reservaPersistencePort.save(reserva);
+        // 2. Guardar correctamente
+        Reserva saved = reservaRepository.save(reserva);
 
+        // 3. Respuesta
         return new ReservaResponse(
-                reserva.getId(),
-                reserva.getEstado().name()
+                saved.getId(),
+                saved.getEstado()
         );
     }
 }

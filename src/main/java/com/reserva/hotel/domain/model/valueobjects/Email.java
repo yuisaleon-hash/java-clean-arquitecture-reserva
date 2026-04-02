@@ -1,43 +1,33 @@
 package com.reserva.hotel.domain.model.valueobjects;
 
-import java.util.Objects;
-import java.util.regex.Pattern;
+import com.reserva.hotel.domain.exception.BusinessRuleException;
 
-public class Email {
-    private static final Pattern EMAIL_PATTERN =
-            Pattern.compile("^[A-Za-z0-9+_.-]+@([A-Za-z0-9.-]+\\.[A-Za-z]{2,})$");
+public final class Email {
 
     private final String value;
 
     public Email(String value) {
-        if (value == null || value.trim().isEmpty()) {
-            throw new IllegalArgumentException("Email cannot be null or empty");
+        if (value == null || value.isBlank()) {
+            throw new BusinessRuleException("El email no puede estar vacío");
         }
-        if (!EMAIL_PATTERN.matcher(value).matches()) {
-            throw new IllegalArgumentException("Invalid email format: " + value);
+        if (!value.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+            throw new BusinessRuleException("El email no tiene un formato válido: " + value);
         }
-        this.value = value.toLowerCase().trim();
+        this.value = value.toLowerCase();
     }
 
-    public String getValue() {
-        return value;
-    }
+    public String getValue() { return value; }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Email)) return false;
-        Email email = (Email) o;
-        return Objects.equals(value, email.value);
+        return value.equals(((Email) o).value);
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(value);
-    }
+    public int hashCode() { return value.hashCode(); }
 
     @Override
-    public String toString() {
-        return value;
-    }
+    public String toString() { return value; }
 }

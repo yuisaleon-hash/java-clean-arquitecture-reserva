@@ -1,12 +1,11 @@
-# application.yml
 spring:
   application:
-    name: veterinary-clinic
+    name: reserva-hotel
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/veterinary_clinic
+    url: jdbc:postgresql://localhost:5432/reserva_hotel
     username: postgres
-    password: NuevaClave123
+    password: Isabel1978
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -46,7 +45,7 @@ spring:
     date-format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
 
 server:
-  port: 8000
+  port: 8085
   servlet:
     context-path: /
   compression:
@@ -63,26 +62,25 @@ management:
 
 logging:
   level:
-    com.veterinary.clinic: DEBUG
+    com.reserva.hotel: DEBUG
     org.springframework.security: DEBUG
     org.hibernate.SQL: DEBUG
-    ROOT: INFO
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    ROOT: INFO
   pattern:
     file: "[%d{yyyy-MM-dd HH:mm:ss}] [%level] [%logger{36}] - %msg%n"
     console: "[%d{yyyy-MM-dd HH:mm:ss}] [%highlight(%level)] [%cyan(%logger{36})] - %msg%n"
 
 # Configuración específica de la aplicación
-veterinary:
-  clinic:
-    appointment:
-      default-duration-minutes: 30
-      max-duration-minutes: 480
-      reminder-hours-before: 24
+reserva:
+  hotel:
+    booking:
+      default-duration-days: 1
+      max-duration-days: 30
     notification:
       email:
         enabled: true
-        from-address: noreply@veterinaryclinic.com
+        from-address: noreply@reservahotel.com
       sms:
         enabled: false
         provider: twilio

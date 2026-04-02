@@ -1,0 +1,225 @@
+# 🏨 Reserva Hotel - Proyecto Backend
+
+## 📌 Descripción
+
+Este proyecto es una aplicación backend para la gestión de reservas de hotel, construida siguiendo principios de **Arquitectura Hexagonal (Ports & Adapters)** y **Domain-Driven Design (DDD)**.
+
+Permite:
+
+* Crear reservas
+* Consultar reservas
+* Validar disponibilidad de habitaciones
+* Enviar notificaciones (email/SMS)
+
+---
+
+## 🧱 Arquitectura
+
+El proyecto está organizado en capas claramente separadas:
+
+### 1. 🧠 Dominio (`domain`)
+
+Contiene la lógica de negocio pura.
+
+* **model**: Entidades y Value Objects (`Reserva`, `Hotel`, `Cliente`, etc.)
+* **repository**: Interfaces para persistencia
+* **service**: Lógica de dominio (`ReservaDomainService`)
+* **exception**: Excepciones del dominio
+
+👉 No depende de ninguna tecnología externa.
+
+---
+
+### 2. ⚙️ Aplicación (`application`)
+
+Orquesta los casos de uso.
+
+* **dto**
+
+  * `command`: Entrada de datos (`CreateReservaCommand`)
+  * `query`: Consultas (`GetReservaHandler`)
+  * `response`: Respuestas (`ReservaResponse`)
+* **port**
+
+  * `in`: Casos de uso (`CreateReservaUseCase`)
+  * `out`: Interfaces externas (persistencia, notificaciones)
+* **service**
+
+  * Implementación de casos de uso (`CreateReservaHandler`)
+
+---
+
+### 3. 🔌 Infraestructura (`infrastructure.adapter`)
+
+Implementaciones concretas.
+
+* **in.web**
+
+  * `ReservaController` (API REST)
+* **out**
+
+  * **persistence**: Adaptadores de repositorio
+  * **notification**: Email y SMS
+
+---
+
+### 4. ⚙️ Configuración
+
+* `BeanConfig`: Configuración de beans
+* `application.yml`: Configuración general
+* Perfiles:
+
+  * `application-dev.yml`
+  * `application-prod.yml`
+  * `application-test.yml`
+
+---
+
+## 🚀 Cómo ejecutar el proyecto
+
+### 1. Prerrequisitos
+
+* Java 17+
+* Maven o Gradle
+* IDE (IntelliJ recomendado)
+
+---
+
+### 2. Clonar el repositorio
+
+```bash
+git clone <URL_DEL_REPO>
+cd reserva-hotel
+```
+
+---
+
+### 3. Configurar variables de entorno
+
+Puedes usar:
+
+```
+.env.example
+.env.produccion
+```
+
+---
+
+### 4. Ejecutar la aplicación
+
+#### Con Maven:
+
+```bash
+mvn spring-boot:run
+```
+
+#### O desde el IDE:
+
+Ejecuta la clase:
+
+```
+ReservaHotelApplication
+```
+
+---
+
+## 📡 Endpoints principales
+
+### ➤ Crear reserva
+
+```http
+POST /reservas
+```
+
+**Body:**
+
+```json
+{
+  "cliente": "Juan Perez",
+  "email": "juan@email.com",
+  "fechaEntrada": "2025-01-01",
+  "fechaSalida": "2025-01-05"
+}
+```
+
+---
+
+### ➤ Obtener reserva
+
+```http
+GET /reservas/{id}
+```
+
+---
+
+## 🧪 Testing
+
+Para ejecutar tests:
+
+```bash
+mvn test
+```
+
+Perfil de testing:
+
+```
+application-test.yml
+```
+
+---
+
+## 🧩 Principios aplicados
+
+* ✅ Arquitectura Hexagonal
+* ✅ Separación de responsabilidades
+* ✅ Inversión de dependencias
+* ✅ DDD (Domain Driven Design)
+* ✅ Testabilidad
+* ✅ Bajo acoplamiento
+
+---
+
+## 🔄 Flujo de una petición
+
+1. `ReservaController` recibe la request
+2. Se convierte en un `Command`
+3. Se ejecuta un `UseCase`
+4. El dominio procesa la lógica
+5. Se usan `Ports` para persistencia/notificaciones
+6. Se devuelve un `Response`
+
+---
+
+## 📦 Ejemplo de flujo: Crear reserva
+
+```
+Controller → Command → UseCase → Domain Service → Repository → Response
+```
+
+---
+
+## 🛠 Tecnologías
+
+* Java
+* Spring Boot
+* Arquitectura Hexagonal
+* Maven/Gradle
+
+---
+
+## 📌 Notas
+
+* Los repositorios en memoria (`InMemory...`) son para desarrollo/testing.
+* Puedes reemplazarlos por bases de datos reales fácilmente gracias a los **Ports**.
+
+---
+
+## 👨‍💻 Autor
+
+Proyecto desarrollado como ejemplo de buenas prácticas en arquitectura backend.
+
+---
+
+## 📄 Licencia
+
+MIT

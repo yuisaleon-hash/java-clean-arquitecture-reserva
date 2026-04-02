@@ -6,19 +6,21 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
-@Repository // 🔥 CLAVE
+@Repository
 public class ReservaRepositoryAdapter implements ReservaPersistencePort {
 
     private final Map<String, Reserva> database = new HashMap<>();
 
     @Override
-    public void save(Reserva reserva) {
+    public Reserva save(Reserva reserva) {
         database.put(reserva.getId(), reserva);
+        return reserva;
     }
 
     @Override
-    public Reserva findById(String id) {
-        return database.get(id);
+    public Optional<Reserva> findById(String id) {
+        return Optional.ofNullable(database.get(id));
     }
 }

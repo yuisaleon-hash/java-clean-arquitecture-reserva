@@ -1,22 +1,26 @@
 package com.reserva.hotel.infrastructure.adapter.out.persistence;
 
+import com.reserva.hotel.application.port.out.HotelPersistencePort;
 import com.reserva.hotel.domain.model.Hotel;
-import com.reserva.hotel.domain.repository.HotelRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
-public class InMemoryHotelRepository implements HotelRepository {
+@Repository
+public class InMemoryHotelRepository implements HotelPersistencePort {
 
-    private final List<Hotel> hoteles = new ArrayList<>();
+    private final Map<String, Hotel> hoteles = new HashMap<>();
 
     @Override
-    public void save(Hotel hotel) {
-        hoteles.add(hotel);
+    public Hotel save(Hotel hotel) {
+        hoteles.put(hotel.getId(), hotel);
+        return hotel;
     }
 
     @Override
-    public List<Hotel> findAll() {
-        return hoteles;
+    public Optional<Hotel> findById(String id) {
+        return Optional.ofNullable(hoteles.get(id));
     }
 }
