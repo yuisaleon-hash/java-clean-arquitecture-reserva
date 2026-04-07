@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface ReservaPersistencePort {
 
-    Reserva save(Reserva reserva);
-
     Optional<Reserva> findById(String id);
+
+    Reserva save(Reserva reserva);
 }

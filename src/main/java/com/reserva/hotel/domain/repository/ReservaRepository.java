@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface ReservaRepository {
 
-    Reserva save(Reserva reserva); // ✅ ahora coincide
+    Reserva save(Reserva reserva);
 
     Optional<Reserva> findById(String id);
 }

@@ -1,12 +1,15 @@
 package com.reserva.hotel.application.port.out;
 
+// application/port/out/EmailNotificationPort.java
 public interface EmailNotificationPort {
-    void sendAppointmentConfirmation(String email, String ownerName,
-                                     String petName, String appointmentDate);
 
-    void sendAppointmentReminder(String email, String ownerName,
-                                 String petName, String appointmentDate);
+    void sendReservaConfirmacion(String email, String clienteNombre,
+                                 String hotelNombre, String fechaInicio,
+                                 String fechaFin, String reservaId);
 
-    void sendAppointmentCancellation(String email, String ownerName,
-                                     String petName, String appointmentDate);
+    void sendReservaRecordatorio(String email, String clienteNombre,
+                                 String hotelNombre, String fechaInicio);
+
+    void sendReservaCancelacion(String email, String clienteNombre,
+                                String hotelNombre, String fechaInicio);
 }

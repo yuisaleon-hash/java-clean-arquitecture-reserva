@@ -1,7 +1,7 @@
 package com.reserva.hotel.infrastructure.adapter.out.persistence;
 
-import com.reserva.hotel.application.port.out.HotelPersistencePort;
 import com.reserva.hotel.domain.model.Hotel;
+import com.reserva.hotel.domain.repository.HotelRepository;  // ← cambiado
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Repository
-public class InMemoryHotelRepository implements HotelPersistencePort {
+public class InMemoryHotelRepository implements HotelRepository {  // ← cambiado
 
     private final Map<String, Hotel> hoteles = new HashMap<>();
 
