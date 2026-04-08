@@ -1,8 +1,8 @@
 package com.reserva.hotel.domain.model;
 
-import com.reserva.hotel.domain.exception.BusinessRuleException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import com.reserva.hotel.domain.exception.BusinessRuleException;
 
 public class Reserva {                           // ← faltaba esto
 

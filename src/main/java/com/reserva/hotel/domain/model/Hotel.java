@@ -1,7 +1,7 @@
 package com.reserva.hotel.domain.model;
 
-import com.reserva.hotel.domain.exception.BusinessRuleException;
 import com.reserva.hotel.domain.exception.RoomUnavailableException;
+import com.reserva.hotel.domain.exception.BusinessRuleException;
 
 public class Hotel {
 

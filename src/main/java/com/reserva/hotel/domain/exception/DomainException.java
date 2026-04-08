@@ -2,11 +2,14 @@ package com.reserva.hotel.domain.exception;
 
 public abstract class DomainException extends RuntimeException {
 
-    protected DomainException(String message) {
+    private final String code;
+
+    public DomainException(String code, String message) {
         super(message);
+        this.code = code;
     }
 
-    protected DomainException(String message, Throwable cause) {
-        super(message, cause);
+    public String getCode() {
+        return code;
     }
 }

@@ -1,6 +1,5 @@
 package com.reserva.hotel.domain.service;
 
-import com.reserva.hotel.domain.exception.BusinessRuleException;
 import com.reserva.hotel.domain.exception.RoomUnavailableException;
 import com.reserva.hotel.domain.model.Cliente;
 import com.reserva.hotel.domain.model.Hotel;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import com.reserva.hotel.domain.exception.BusinessRuleException;
 
 @Service
 public class ReservaDomainService {

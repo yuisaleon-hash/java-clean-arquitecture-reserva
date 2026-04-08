@@ -18,7 +18,7 @@ public class ClienteMapper {
         return new ClienteEntity(
                 cliente.getId(),
                 cliente.getNombre(),
-                cliente.getEmail(),
+                cliente.getEmail().getValue(),
                 cliente.getGender()
         );
     }

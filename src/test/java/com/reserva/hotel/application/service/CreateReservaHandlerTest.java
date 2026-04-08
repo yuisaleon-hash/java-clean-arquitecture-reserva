@@ -1,67 +1,73 @@
 package com.reserva.hotel.application.service;
 
 import com.reserva.hotel.application.dto.command.CreateReservaCommand;
-import com.reserva.hotel.application.port.out.*;
-import com.reserva.hotel.domain.model.*;
+import com.reserva.hotel.application.port.out.ClientePersistencePort;
+import com.reserva.hotel.application.port.out.HotelPersistencePort;
+import com.reserva.hotel.application.port.out.ReservaPersistencePort;
+import com.reserva.hotel.application.port.out.EmailNotificationPort;
+import com.reserva.hotel.domain.model.Cliente;
+import com.reserva.hotel.domain.model.Hotel;
 import com.reserva.hotel.domain.model.valueobjects.Gender;
 import com.reserva.hotel.domain.service.ReservaDisponibilidadService;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class CreateReservaHandlerTest {
 
-    @Test
-    void debeCrearReservaCorrectamente() {
+    private ClientePersistencePort clientePort;
+    private HotelPersistencePort hotelPort;
+    private ReservaPersistencePort reservaPort;
+    private EmailNotificationPort emailPort;
+    private ReservaDisponibilidadService disponibilidadService;
 
-        // 🔹 Mocks de puertos (HEXAGONAL ✔)
-        ReservaPersistencePort reservaPort = Mockito.mock(ReservaPersistencePort.class);
-        HotelPersistencePort hotelPort = Mockito.mock(HotelPersistencePort.class);
-        ClientePersistencePort clientePort = Mockito.mock(ClientePersistencePort.class);
-        EmailNotificationPort emailPort = Mockito.mock(EmailNotificationPort.class);
+    private CreateReservaHandler handler;
 
-        // 🔹 Servicio de dominio (DDD ✔)
-        ReservaDisponibilidadService disponibilidadService = new ReservaDisponibilidadService();
+    @BeforeEach
+    void setUp() {
+        clientePort = mock(ClientePersistencePort.class);
+        hotelPort = mock(HotelPersistencePort.class);
+        reservaPort = mock(ReservaPersistencePort.class);
+        emailPort = mock(EmailNotificationPort.class);
+        disponibilidadService = mock(ReservaDisponibilidadService.class);
 
-        // 🔹 Entidades reales (DOMINIO ✔)
-        Hotel hotel = new Hotel("1", "Hotel Test", 5);
-        Cliente cliente = new Cliente("1", "Juan", "test@mail.com", Gender.MASCULINO);;
-
-        // 🔹 Comportamiento de puertos (MOCKS ✔)
-        Mockito.when(hotelPort.findById("1")).thenReturn(Optional.of(hotel));
-        Mockito.when(clientePort.findById("1")).thenReturn(Optional.of(cliente));
-
-        Mockito.when(reservaPort.save(Mockito.any()))
-                .thenAnswer(invocation -> invocation.getArgument(0));
-
-        // 🔹 Caso de uso (APPLICATION ✔)
-        CreateReservaHandler handler = new CreateReservaHandler(
-                reservaPort,
-                hotelPort,
+        handler = new CreateReservaHandler(
                 clientePort,
+                hotelPort,
+                reservaPort,
                 emailPort,
                 disponibilidadService
         );
+    }
 
-        // 🔹 Comando (DTO ✔)
+    @Test
+    void shouldCreateReservaSuccessfully() {
+
+        Cliente cliente = new Cliente("C001", "Juan", "juan@test.com", Gender.MASCULINO);
+        Hotel hotel = new Hotel("H001", "Hotel Test", 10);
+
+        when(clientePort.findById("C001")).thenReturn(Optional.of(cliente));
+        when(hotelPort.findById("H001")).thenReturn(Optional.of(hotel));
+
         CreateReservaCommand command = new CreateReservaCommand(
-                "1",
-                "1",
-                "1",
+                "R001",
+                "C001",
+                "H001",
                 LocalDate.now().plusDays(1),
                 LocalDate.now().plusDays(3)
         );
 
-        // 🔹 Ejecución
-        var response = handler.execute(command);
+        handler.execute(command);
 
-        // 🔹 Validaciones
-        assertNotNull(response);
-        assertEquals("1", response.getId());
+        verify(reservaPort).save(any());
+        verify(emailPort).sendReservaConfirmacion(
+                anyString(), anyString(), anyString(),
+                anyString(), anyString(), anyString()
+        );
     }
 }

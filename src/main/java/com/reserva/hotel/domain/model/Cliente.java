@@ -1,8 +1,8 @@
 package com.reserva.hotel.domain.model;
 
-import com.reserva.hotel.domain.exception.BusinessRuleException;
 import com.reserva.hotel.domain.model.valueobjects.Email;
 import com.reserva.hotel.domain.model.valueobjects.Gender;
+import com.reserva.hotel.domain.exception.BusinessRuleException;
 
 public class Cliente {
 
@@ -18,6 +18,7 @@ public class Cliente {
         if (nombre == null || nombre.isBlank()) {
             throw new BusinessRuleException("El nombre del cliente no puede estar vacío");
         }
+
         this.id     = id;
         this.nombre = nombre;
         this.email  = new Email(email);
@@ -35,8 +36,20 @@ public class Cliente {
         this.nombre = nuevoNombre;
     }
 
-    public String getId()     { return id; }
-    public String getNombre() { return nombre; }
-    public String getEmail()  { return email.getValue(); }
-    public Gender getGender() { return gender; }
+    public String getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    // 🔥 CAMBIO CLAVE: devolver el VALUE OBJECT
+    public Email getEmail() {
+        return email;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
 }

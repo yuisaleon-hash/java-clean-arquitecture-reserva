@@ -3,10 +3,6 @@ package com.reserva.hotel.domain.exception;
 public class BusinessRuleException extends DomainException {
 
     public BusinessRuleException(String message) {
-        super(message);
-    }
-
-    public BusinessRuleException(String message, Throwable cause) {
-        super(message, cause);
+        super("BUSINESS_RULE", message);
     }
 }

@@ -60,6 +60,9 @@ public class EmailNotificationAdapter implements EmailNotificationPort {
 
     private void enviarEmail(String to, String subject, String text) {
         try {
+            logger.info("=== INTENTANDO ENVIAR EMAIL ===");
+            logger.info("TO: {}", to);
+
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(fromAddress);
             message.setTo(to);
